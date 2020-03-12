@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Galaxia de Amor</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1 class="text-danger">Join Galaxia de Amor by Creating a Character</h1>
+
+    <form action="/register" name="form" method="POST">
+      <div class="form-group">
+        <label for="name">Username:</label>
+
+
+        <% if (locals.name) { %>
+
+        <h6 class="text-danger"> The username <%= name %> is already taken try something else </h6>
+
+        <% } %>
+
+
+        <input required type="text" name="name" value="" class="form-control">
+        <label for="name">Password:</label>
+        <% if (locals.error) { %>
+
+        <h6 class="text-danger"> <%= error %> </h6>
+
+        <% } %>
+
+
+
+        <input required type="password" name="password" value="" class="form-control">
+
+        <label for="sex">Choose Sex:</label>
+        <select name="sex" class="form-control">
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+        </select>
+
+        <label for="skin">Choose a skin:</label>
+
+        <select name="skin" class="form-control">
+          <option value="dark">Dark</option>
+          <option value="dark2">Dark2</option>
+          <option value="darkelf">DarkElf</option>
+          <option value="darkelf2">DarkElf2</option>
+          <option value="orc">Orc</option>
+          <option value="red_orc">RedOrc</option>
+          <option value="light">Light</option>
+          <option value="tanned">Tanned</option>
+          <option value="tanned2">Tanned2</option>
+        </select>
+        <label for="eye">Choose eye Color:</label>
+        <select name="eye" class="form-control">
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+          <option value="yellow">Yellow</option>
+          <option value="gray">Gray</option>
+          <option value="brown">Brown</option>
+          <option value="orange">Orange</option>
+          <option value="purple">Purple</option>
+          <option value="red">Red</option>
+
+        </select>
+        <label for="hair">Choose Hair Type:</label>
+        <select name="hair" class="form-control">
+          <option value="bangs">Bangs</option>
+          <option value="bangslong">Bangs -Long</option>
+          <option value="bangsshort">Bangs -Short</option>
+          <option value="bedhead">Bedhead</option>
+          <option value="jewfro">Jewfro</option>
+          <option value="long">Long</option>
+          <option value="loose">Loose</option>
+          <option value="messy1">Messy</option>
+          <option value="mohawk">Mohawk</option>
+          <option value="princess">Princess</option>
+          <option value="plain">Plain</option>
+          <option value="ponytail">PonyTail</option>
+
+        </select>
+        <label for="haircolor">Choose Hair Color:</label>
+        <select name="haircolor" class="form-control">
+          <option value="black">Black</option>
+          <option value="blonde">Blonde</option>
+          <option value="blue">Blue</option>
+          <option value="brown">Brown</option>
+          <option value="gold">Gold</option>
+          <option value="pink">Pink</option>
+          <option value="green">Green</option>
+          <option value="brunette">Brunette</option>
+          <option value="raven">Raven</option>
+          <option value="ruby-red">Ruby Red</option>
+          <option value="redhead">RedHead</option>
+          <option value="white">White</option>
+
+        </select>
+        <label for="shirt">Choose a shirt color:</label>
+        <select name="shirt" class="form-control">
+          <option value="brown">Brown</option>
+          <option value="teal">Teal</option>
+          <option value="white">White</option>
+          <option value="maroon">Maroon</option>
+
+        </select>
+        <label for="pants">Choose a pant color:</label>
+        <select name="pants" class="form-control">
+          <option value="magenta">Magenta</option>
+          <option value="teal">Teal</option>
+          <option value="white">White</option>
+          <option value="red">Red</option>
+        </select>
+        <label for="nose">Choose a nose type:</label>
+        <select name="nose" class="form-control">
+          <option value="buttonnose">Button Nose</option>
+          <option value="bignose">Big Nose</option>
+          <option value="straightnose">Straight Nose</option>
+        </select>
+        <label for="shoes">Choose a Shoe:</label>
+        <select name="shoes" class="form-control">
+          <option value="black_shoes">Black Shoes</option>
+          <option value="brown_shoes">Brown Shoes</option>
+          <option value="maroon_shoes">Maroon Shoes</option>
+        </select>
+        <label for="facial">Choose Facial Hair:</label>
+        <select name="facial" class="form-control">
+          <option value="none">None</option>
+          <option value="beard">Beard</option>
+          <option value="bigstache">BigStache</option>
+          <option value="mustache">Mustache</option>
+          <option value="frenchstache">Frenchstache</option>
+          <option value="fiveoclock">Five_O_Clock</option>
+        </select>
+
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </div>
+
+    </form>
+    <a href="/login">Login</a>
+
+
+  </div>
+
+
+
+  <script defer src="script.js"></script>
+  <script>
+  </script>
+</body>
+
+</html>
