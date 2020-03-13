@@ -86,6 +86,20 @@ canvas.addEventListener('click', (evt) => {
 })
 //End of Socket Handling
 //Send message
+
+
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    
+   event.preventDefault(); 
+   send.click();
+  }
+}); 
+
+
+
+
 send.onclick = () => {
   var message = DOMPurify.sanitize(input.value);
   if (!message || 0 === message.length) {
