@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="game.css">
   <link rel="stylesheet" href="android_toast.min.css">
 
 
@@ -26,23 +25,33 @@
   <script defer src="/socket.io/socket.io.js"></script>
   <script defer src="game.js"></script>
 
+<ul class="nav justify-content-end navbar-dark bg-dark">
 
+
+ <li class="nav-item">
+    <a href="/help" class="btn btn-warning">Help</a>
+  </li>
+
+  <li class="nav-item">
+      
+      <form action="/logout?_method=DELETE" method="POST">
+        <button class="btn btn-danger" type="submit">Logout</button>
+      </form>
+      
+  
+  </li>
+
+
+</ul>
 
   <div>
     <canvas id="canvas" style="background :url(images/planet.jpg)"></canvas>
   </div>
-  <div class="input_div">
+  <div class="fixed-bottom">
     <input type="text" id="message">
     <button id="send" class="btn btn-primary">Send</button>
   </div>
 
-  <div class="logout_div">
-    <form action="/logout?_method=DELETE" method="POST">
-      <a href="/help" class="btn btn-warning">Help</a>
-      <button class="btn btn-danger" type="submit">Logout</button>
-    </form>
-
-  </div>
 
 
 
