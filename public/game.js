@@ -19,6 +19,12 @@ User.y = Math.random()
 User.animation = "stand_down"
 User.frameCount = 0
 User.message = ""
+User.stance ="stand"
+User.dir ="down"
+User.left =0
+User.right =0
+User.up=0
+User.down =0
 
 
 socket.emit('join', User)
@@ -36,12 +42,14 @@ socket.on('heartbeat', users => {
       img.src = users[key].image;
 
       let l = Object.keys(jsondata["animations"][users[key].animation]).length
-      let frame = jsondata["frames"][jsondata["animations"][users[key].animation][users[key].frameCount % l]]
+      let d =  users[key]["dir"]
+      let frame = jsondata["frames"][jsondata["animations"][users[key].animation][users[key][d] % l]]
+      
 
-
-      cntx.drawImage(img, frame.frame.x, frame.frame.y, 64, 64, users[key].x * canvas.width, users[key].y * canvas.height, 64, 64)
-      cntx.fillStyle = "white"
-      cntx.fillText(users[key].message, (users[key].x * canvas.width) + 5, (users[key].y * canvas.height) - 1)
+      cntx.drawImage(img,frame.frame.x, frame.frame.y, 64, 64, users[key].x * canvas.width, users[key].y * canvas.height, 64, 64)
+      cntx.font='20px sans-serif'
+      cntx.fillStyle ="white"
+      cntx.fillText(users[key].message,(users[key].x*canvas.width)+5,(users[key].y*canvas.height)-1)
     }
   }
 })
@@ -84,6 +92,43 @@ canvas.addEventListener('click', (evt) => {
   socket.emit('change-pos', data)
 
 })
+
+document.onkeydown = function(e) {
+  switch (e.keyCode) {
+      case 37:
+       
+          socket.emit('change-pos',{dir:"left",stance:"walk",id:socket.id})
+          break;
+      case 38:
+        socket.emit('change-pos',{dir:"up",stance:"walk",id:socket.id})
+          break;
+      case 39:
+        socket.emit('change-pos',{dir:"right",stance:"walk",id:socket.id})
+          break;
+      case 40:
+        socket.emit('change-pos',{dir:"down",stance:"walk",id:socket.id})
+          break;
+  }
+};
+
+document.onkeyup = function(e) {
+  switch (e.keyCode) {
+      case 37:
+          socket.emit('change-pos',{dir:"left",stance:"stand",id:socket.id})
+          break;
+      case 38:
+        socket.emit('change-pos',{dir:"up",stance:"stand",id:socket.id})
+          break;
+      case 39:
+        socket.emit('change-pos',{dir:"right",stance:"stand",id:socket.id})
+          break;
+      case 40:
+        socket.emit('change-pos',{dir:"down",stance:"stand",id:socket.id})
+          break;
+  }
+};
+
+
 //End of Socket Handling
 //Send message
 
@@ -96,8 +141,6 @@ input.addEventListener("keyup", function(event) {
    send.click();
   }
 }); 
-
-
 
 
 send.onclick = () => {

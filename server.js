@@ -211,7 +211,6 @@ function checkNotAuthenticated(req, res, next) {
 var server = http.createServer(app);
 server.listen(process.env.PORT || 3000)
 var io = require('socket.io').listen(server);
-const commands = ["cast_up", "cast_down", "cast_right", "cast_left", "stand_up", "stand_down", "stand_right", "stand_left", "thrust_up", "thrust_down", "thrust_left", "thrust_right", "slash_up", "slash_down", "slash_left", "slash_right", "shoot_up", "shoot_down", "shoot_left", "shoot_right", "hurt"]
 var users = {};
 io.use(passportSocketIo.authorize({
   passport: passport,
@@ -240,11 +239,16 @@ io.on('connection', function(socket) {
     }
   })
   socket.on('send-chat', (message) => {
-    if (commands.indexOf(message.message) == -1) {
+
+	if(users[message.id])
+{
+ 
       users[message.id].message = message.message
-    } else {
-      users[message.id].animation = message.message
-    }
+
+}
+
+
+   
 
 
 
@@ -252,10 +256,38 @@ io.on('connection', function(socket) {
   })
   socket.on('change-pos', data => {
 
-    if (data && data.id && !isNaN(data.x) && !isNaN(data.y)) {
-      users[data.id].x = data.x;
-      users[data.id].y = data.y;
-    }
+
+	if(users[data.id])
+{
+  if(data.x&&data.y)
+  {
+    users[data.id].x=data.x
+    users[data.id].y=data.y
+  }
+  
+  if(data.stance&&data.dir)
+   users[data.id].animation =`${data.stance}_${data.dir}`
+   if(data.dir==="left")
+   {
+    users[data.id].left+=1 
+    users[data.id].x-=0.01
+   }else if(data.dir==="right")
+   {
+    users[data.id].right+=1 
+    users[data.id].x+=0.01
+   }else if(data.dir==="up")
+   {
+     users[data.id].up+=1
+     users[data.id].y-=0.01
+   }else if(data.dir==="down")
+   {
+     users[data.id].down+=1
+     users[data.id].y+=0.01
+   }
+
+}
+    
+    
 
 
   })
