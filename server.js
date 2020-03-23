@@ -267,19 +267,19 @@ io.on('connection', function(socket) {
   
   if(data.stance&&data.dir)
    users[data.id].animation =`${data.stance}_${data.dir}`
-   if(data.dir==="left")
+   if(data.dir==="left"&&users[data.id].x>=0)
    {
     users[data.id].left+=1 
     users[data.id].x-=0.01
-   }else if(data.dir==="right")
+   }else if(data.dir==="right"&&users[data.id].x<=0.9)
    {
     users[data.id].right+=1 
     users[data.id].x+=0.01
-   }else if(data.dir==="up")
+   }else if(data.dir==="up"&&users[data.id].y>=0)
    {
      users[data.id].up+=1
      users[data.id].y-=0.01
-   }else if(data.dir==="down")
+   }else if(data.dir==="down"&&users[data.id].y<=0.9)
    {
      users[data.id].down+=1
      users[data.id].y+=0.01
