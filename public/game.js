@@ -13,7 +13,6 @@ const input = document.getElementById('message')
 const send = document.getElementById('send')
 
 var User = JSON.parse(user)
-delete User.password
 User.x = Math.random()
 User.y = Math.random()
 User.animation = "stand_down"
@@ -21,10 +20,6 @@ User.frameCount = 0
 User.message = ""
 User.stance ="stand"
 User.dir ="down"
-User.left =0
-User.right =0
-User.up=0
-User.down =0
 
 
 socket.emit('join', User)
@@ -42,8 +37,7 @@ socket.on('heartbeat', users => {
       img.src = users[key].image;
 
       let l = Object.keys(jsondata["animations"][users[key].animation]).length
-      let d =  users[key]["dir"]
-      let frame = jsondata["frames"][jsondata["animations"][users[key].animation][users[key][d] % l]]
+      let frame = jsondata["frames"][jsondata["animations"][users[key].animation][users[key].frameCount%l]]
       
 
       cntx.drawImage(img,frame.frame.x, frame.frame.y, 64, 64, users[key].x * canvas.width, users[key].y * canvas.height, 64, 64)
@@ -85,7 +79,6 @@ canvas.addEventListener('click', (evt) => {
 
 
   const data = {
-    id: socket.id,
     x: mousePos.x / canvas.width,
     y: mousePos.y / canvas.height
   }
@@ -97,16 +90,16 @@ document.onkeydown = function(e) {
   switch (e.keyCode) {
       case 37:
        
-          socket.emit('change-pos',{dir:"left",stance:"walk",id:socket.id})
+          socket.emit('change-pos',{dir:"left",stance:"walk"})
           break;
       case 38:
-        socket.emit('change-pos',{dir:"up",stance:"walk",id:socket.id})
+        socket.emit('change-pos',{dir:"up",stance:"walk"})
           break;
       case 39:
-        socket.emit('change-pos',{dir:"right",stance:"walk",id:socket.id})
+        socket.emit('change-pos',{dir:"right",stance:"walk"})
           break;
       case 40:
-        socket.emit('change-pos',{dir:"down",stance:"walk",id:socket.id})
+        socket.emit('change-pos',{dir:"down",stance:"walk"})
           break;
   }
 };
@@ -114,16 +107,16 @@ document.onkeydown = function(e) {
 document.onkeyup = function(e) {
   switch (e.keyCode) {
       case 37:
-          socket.emit('change-pos',{dir:"left",stance:"stand",id:socket.id})
+          socket.emit('change-pos',{dir:"left",stance:"stand"})
           break;
       case 38:
-        socket.emit('change-pos',{dir:"up",stance:"stand",id:socket.id})
+        socket.emit('change-pos',{dir:"up",stance:"stand"})
           break;
       case 39:
-        socket.emit('change-pos',{dir:"right",stance:"stand",id:socket.id})
+        socket.emit('change-pos',{dir:"right",stance:"stand"})
           break;
       case 40:
-        socket.emit('change-pos',{dir:"down",stance:"stand",id:socket.id})
+        socket.emit('change-pos',{dir:"down",stance:"stand"})
           break;
   }
 };

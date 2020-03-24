@@ -65,6 +65,7 @@ app.use(methodOverride('_method'))
 
 app.get('/', checkAuthenticated, (req, res) => {
   const user = req.user
+  delete user.password
   res.render('game.ejs', {
     user
   })
@@ -211,6 +212,7 @@ function checkNotAuthenticated(req, res, next) {
 var server = http.createServer(app);
 server.listen(process.env.PORT || 3000)
 var io = require('socket.io').listen(server);
+const commands = ["cast_up", "cast_down", "cast_right", "cast_left", "stand_up", "stand_down", "stand_right", "stand_left", "thrust_up", "thrust_down", "thrust_left", "thrust_right", "slash_up", "slash_down", "slash_left", "slash_right", "shoot_up", "shoot_down", "shoot_left", "shoot_right", "hurt"]
 var users = {};
 io.use(passportSocketIo.authorize({
   passport: passport,
@@ -240,10 +242,19 @@ io.on('connection', function(socket) {
   })
   socket.on('send-chat', (message) => {
 
-	if(users[message.id])
+	if(users[socket.id])
 {
+
+  if(commands.indexOf(message.message)!=-1){
+
+    users[socket.id].animation =message.message
+
+  }else
+  {
+    users[socket.id].message = message.message
+  }
  
-      users[message.id].message = message.message
+     
 
 }
 
@@ -257,32 +268,32 @@ io.on('connection', function(socket) {
   socket.on('change-pos', data => {
 
 
-	if(users[data.id])
+	if(users[socket.id])
 {
   if(data.x&&data.y)
   {
-    users[data.id].x=data.x
-    users[data.id].y=data.y
+    users[socket.id].x=data.x
+    users[socket.id].y=data.y
   }
   
   if(data.stance&&data.dir)
-   users[data.id].animation =`${data.stance}_${data.dir}`
-   if(data.dir==="left"&&users[data.id].x>=0)
+   users[socket.id].animation =`${data.stance}_${data.dir}`
+   if(data.dir==="left"&&users[socket.id].x>=0)
    {
-    users[data.id].left+=1 
-    users[data.id].x-=0.01
-   }else if(data.dir==="right"&&users[data.id].x<=0.9)
+   
+    users[socket.id].x-=0.01
+   }else if(data.dir==="right"&&users[socket.id].x<=0.9)
    {
-    users[data.id].right+=1 
-    users[data.id].x+=0.01
-   }else if(data.dir==="up"&&users[data.id].y>=0)
+     
+    users[socket.id].x+=0.01
+   }else if(data.dir==="up"&&users[socket.id].y>=0)
    {
-     users[data.id].up+=1
-     users[data.id].y-=0.01
-   }else if(data.dir==="down"&&users[data.id].y<=0.9)
+    
+     users[socket.id].y-=0.01
+   }else if(data.dir==="down"&&users[socket.id].y<=0.9)
    {
-     users[data.id].down+=1
-     users[data.id].y+=0.01
+     
+     users[socket.id].y+=0.01
    }
 
 }
@@ -293,7 +304,7 @@ io.on('connection', function(socket) {
   })
   setInterval(() => {
     for (let key in users) {
-      (users[key].frameCount += 1)
+      users[key].frameCount += 1
     }
     socket.emit('heartbeat', users)
   }, 500);
