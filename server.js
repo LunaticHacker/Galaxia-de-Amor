@@ -230,6 +230,7 @@ io.use(passportSocketIo.authorize({
 io.on('connection', function(socket) {
   socket.on('join', data => {
     users[socket.id] = data
+     socket.broadcast.emit('joined',users[socket.id].name)
 
 
 
@@ -253,13 +254,13 @@ io.on('connection', function(socket) {
   {
     users[socket.id].message = message.message
   }
- 
-     
+
+
 
 }
 
 
-   
+
 
 
 
@@ -275,30 +276,30 @@ io.on('connection', function(socket) {
     users[socket.id].x=data.x
     users[socket.id].y=data.y
   }
-  
+
   if(data.stance&&data.dir)
    users[socket.id].animation =`${data.stance}_${data.dir}`
    if(data.dir==="left"&&users[socket.id].x>=0)
    {
-   
+
     users[socket.id].x-=0.01
    }else if(data.dir==="right"&&users[socket.id].x<=0.9)
    {
-     
+
     users[socket.id].x+=0.01
    }else if(data.dir==="up"&&users[socket.id].y>=0)
    {
-    
+
      users[socket.id].y-=0.01
    }else if(data.dir==="down"&&users[socket.id].y<=0.9)
    {
-     
+
      users[socket.id].y+=0.01
    }
 
 }
-    
-    
+
+
 
 
   })
@@ -316,6 +317,7 @@ function onAuthorizeSuccess(data, accept) {
   for (var key in users) {
     if (data.user._id == users[key]._id) {
       logged_in = true;
+      break;
     }
   }
   if (logged_in) {
