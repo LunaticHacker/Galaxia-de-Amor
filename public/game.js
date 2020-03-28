@@ -37,7 +37,8 @@ socket.on('heartbeat', users => {
       img.src = users[key].image;
 
       let l = Object.keys(jsondata["animations"][users[key].animation]).length
-      let frame = jsondata["frames"][jsondata["animations"][users[key].animation][users[key].frameCount%l]]
+      let i = Math.floor(users[key].frameCount%l)
+      let frame = jsondata["frames"][jsondata["animations"][users[key].animation][i]]
       
 
       cntx.drawImage(img,frame.frame.x, frame.frame.y, 64, 64, users[key].x * canvas.width, users[key].y * canvas.height, 64, 64)

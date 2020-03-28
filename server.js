@@ -282,19 +282,19 @@ io.on('connection', function(socket) {
    if(data.dir==="left"&&users[socket.id].x>=0)
    {
 
-    users[socket.id].x-=0.01
+    users[socket.id].x-=0.001
    }else if(data.dir==="right"&&users[socket.id].x<=0.9)
    {
 
-    users[socket.id].x+=0.01
+    users[socket.id].x+=0.001
    }else if(data.dir==="up"&&users[socket.id].y>=0)
    {
 
-     users[socket.id].y-=0.01
+     users[socket.id].y-=0.001
    }else if(data.dir==="down"&&users[socket.id].y<=0.9)
    {
 
-     users[socket.id].y+=0.01
+     users[socket.id].y+=0.001
    }
 
 }
@@ -305,7 +305,7 @@ io.on('connection', function(socket) {
   })
   setInterval(() => {
     for (let key in users) {
-      users[key].frameCount += 1
+      users[key].frameCount += 0.5
     }
     socket.emit('heartbeat', users)
   }, 500);
